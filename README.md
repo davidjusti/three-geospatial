@@ -118,6 +118,16 @@ Some stories use Cesium Ion assets. To display them correctly, search for the fo
 | Cesium World Terrain | `1` (likely exists by default) |
 | Japan Regional Terrain | `2767062` |
 
+### Deploying the WebGPU Storybook to GitHub Pages
+
+This fork ships with an automated workflow at [`.github/workflows/storybook-webgpu.yaml`](.github/workflows/storybook-webgpu.yaml) that publishes the WebGPU Storybook (`storybook-webgpu`) to GitHub Pages.
+
+1. In the repository settings, open **Pages** and set the deployment source to **GitHub Actions**.
+2. (Optional) Add a `STORYBOOK_GOOGLE_MAP_API_KEY` repository secret if you want the Google Maps based stories to work in production.
+3. Push to `main` or trigger the workflow manually from the **Actions** tab. The build output from `pnpm nx run storybook-webgpu:build-storybook` is uploaded automatically and served from `https://<your-user>.github.io/<this-repo>/` once the job finishes.
+
+You can re-run the workflow at any time via the **Run workflow** button in the Actions tab to refresh the published Storybook.
+
 ### Note on Storybook errors
 
 You may occasionally encounter the following errors, especially when switching branches:
