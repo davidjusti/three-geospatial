@@ -118,6 +118,24 @@ Some stories use Cesium Ion assets. To display them correctly, search for the fo
 | Cesium World Terrain | `1` (likely exists by default) |
 | Japan Regional Terrain | `2767062` |
 
+### Deploying the WebGPU Storybook to GitHub Pages
+
+This fork ships with an automated workflow at [`.github/workflows/storybook-webgpu.yaml`](.github/workflows/storybook-webgpu.yaml) that publishes the WebGPU Storybook (`storybook-webgpu`) to GitHub Pages.
+
+1. In the repository settings, open **Pages** and set the deployment source to **GitHub Actions**.
+2. (Optional) Add a `STORYBOOK_GOOGLE_MAP_API_KEY` repository secret if you want the Google Maps based stories to work in production.
+3. Push to `main` or trigger the workflow manually from the **Actions** tab. The job runs `storybook build` for the `storybook-webgpu` project, uploads the static bundle, and serves it from `https://<your-user>.github.io/<this-repo>/` once the job finishes. The workflow also sets the correct base path so that Storybook assets resolve on GitHub Pages.
+4. If the published site shows a 404, open the latest **Deploy WebGPU Storybook** workflow run in the **Actions** tab. The site only appears after a successful run, so re-run the job (or push a new commit) if the most recent build failed.
+
+If the **Run workflow** button is hidden (GitHub sometimes withholds it until a workflow has run at least once), make a tiny commit on `main` to start the first deployment, for example:
+
+```sh
+git commit --allow-empty -m "Trigger WebGPU Storybook deployment"
+git push origin main
+```
+
+You can re-run the workflow at any time via the **Run workflow** button in the Actions tab once it is available to refresh the published Storybook.
+
 ### Note on Storybook errors
 
 You may occasionally encounter the following errors, especially when switching branches:
