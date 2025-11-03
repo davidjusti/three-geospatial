@@ -40,13 +40,9 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build Storybook
-        run: >-
-          pnpm exec storybook build
-          --config-dir storybook-webgpu/.storybook
-          --output-dir storybook-webgpu/storybook-static
+        run: pnpm nx run storybook-webgpu:build-storybook
         env:
           STORYBOOK_GOOGLE_MAP_API_KEY: ${{ secrets.STORYBOOK_GOOGLE_MAP_API_KEY }}
-          STORYBOOK_BASE_PATH: /${{ github.event.repository.name }}/
 
       - name: Upload Storybook artifact
         uses: actions/upload-pages-artifact@v3
