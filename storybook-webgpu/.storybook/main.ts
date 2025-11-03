@@ -21,8 +21,11 @@ const config: StorybookConfig = {
 
   staticDirs: [{ from: '../assets', to: '/public' }],
 
-  viteFinal: config =>
-    mergeConfig(config, {
+  viteFinal: config => {
+    const basePath = process.env.STORYBOOK_BASE_PATH
+
+    return mergeConfig(config, {
+      ...(basePath ? { base: basePath } : {}),
       plugins: [react(), nxViteTsPaths()],
       worker: {
         plugins: () => [nxViteTsPaths()]
@@ -31,6 +34,7 @@ const config: StorybookConfig = {
         sourcemap: process.env.NODE_ENV !== 'production'
       }
     })
+  }
 }
 
 export default config
