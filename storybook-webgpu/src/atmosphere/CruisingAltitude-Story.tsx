@@ -63,6 +63,7 @@ import {
   useToneMappingControls,
   type ToneMappingArgs
 } from '../controls/toneMappingControls'
+import { useControl } from '../hooks/useControl'
 import { useGuardedFrame } from '../hooks/useGuardedFrame'
 import { useResource } from '../hooks/useResource'
 import { useSpringControl } from '../hooks/useSpringControl'
@@ -147,6 +148,10 @@ const Content: FC<StoryProps> = () => {
 
   const [reorientationPlugin, setReorientationPlugin] =
     useState<ReorientationPlugin | null>(null)
+
+  const apiKey = useControl(({ googleMapsApiKey }: StoryArgs) =>
+    googleMapsApiKey !== '' ? googleMapsApiKey : undefined
+  )
 
   // https://www.flightaware.com/live/flight/QFA10/history/20250928/1105Z/EGLL/YPPH/tracklog
   const stateRef = useRef({
@@ -233,7 +238,7 @@ const Content: FC<StoryProps> = () => {
       <Suspense>
         <B787 ref={modelRef} />
       </Suspense>
-      <Globe overrideMaterial={MeshLambertNodeMaterial}>
+      <Globe apiKey={apiKey} overrideMaterial={MeshLambertNodeMaterial}>
         <TilesPlugin
           ref={setReorientationPlugin}
           plugin={ReorientationPlugin}
@@ -246,6 +251,7 @@ const Content: FC<StoryProps> = () => {
 interface StoryProps {}
 
 interface StoryArgs extends OutputPassArgs, ToneMappingArgs, LocalDateArgs {
+  googleMapsApiKey: string
   height: number
   knots: number
 }
@@ -277,6 +283,7 @@ export const Story: StoryFC<StoryProps, StoryArgs> = props => (
 )
 
 Story.args = {
+  googleMapsApiKey: '',
   // https://www.flightaware.com/live/flight/QFA10/history/20250928/1105Z/EGLL/YPPH/tracklog
   height: 10660,
   knots: 479,
@@ -292,6 +299,7 @@ Story.args = {
 }
 
 Story.argTypes = {
+  googleMapsApiKey: { control: 'text' },
   height: {
     control: {
       type: 'range',
